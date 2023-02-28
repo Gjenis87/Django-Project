@@ -1,0 +1,147 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inspiration&display=swap');
+        .wrapper{
+            box-sizing: border-box;
+            border: 0.5px solid #FFFFFF;
+            position: relative;
+            width: 330px;
+            height: 560px; /* adjust height to fit content */
+            background: #00759A;
+            border-radius: 12px;
+            margin-top: 100px;
+            margin-left: 728px;
+            padding: 20px; /* reduce padding to avoid overflow */
+            overflow: auto; /* add scrollbar if content overflows */
+            {#display: flex;#}
+            {#justify-content: center;#}
+            {#align-items: center;#}
+        }
+        #login-form{
+            font-family: "JetBrains Mono", serif;
+            font-weight: 300;
+            color: #FFFFFF;
+            {#margin-top: 51px;#}
+            display: flex;
+            position: relative;
+            align-items: center;
+            flex-direction: column;
+        }
+        input{
+            box-sizing: border-box;
+            width: 238px;
+            height: 26px;
+            left: 44px;
+            top: 185px;
+            background: rgba(217, 217, 217, 0.51);
+            border: 1px solid #FFFFFF;
+            border-radius: 9px;
+        }
+        #submit-id{
+            background: #FFFFFF;
+        }
+        span{
+            font-family: 'Inder', serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 25px;
+            color: #FFFFFF;
+        }
+        label{
+            font-family: 'Inder', serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            line-height: 19px;
+            color: #FFFFFF;
+        }
+        .input-container{
+            margin-top: 39px;
+            text-align: center;
+        }
+        h2{
+            text-align: center;
+            font-family: 'Inspiration', cursive;
+            font-weight: 400;
+            font-size:50px;
+            line-height: 62px;
+            color: #FFFFFF;
+            margin-top: 20px;
+            margin-bottom: 39px;
+        }
+        .redirect-signup{
+            margin-top: 72px;
+        }
+
+        a{
+
+            font-family: 'Inder',serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            text-align: center;
+            color: #FFFFFF;
+
+        }
+        p{
+           font-family: 'Inder',serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 15px;
+            text-align: center;
+            color: #FFFFFF;
+        }
+        p,a{
+            display: block;
+        }
+        #incorrect{
+            display: none;
+        }
+    </style>
+    <div class="wrapper">
+        <h2>Gjenis CO.</h2>
+        <form id="login-form" method="post">
+            {% csrf_token %}
+            <div class="input-container">
+                <span>Login</span><br><br>
+                <label>Username</label>
+                <input id="username" type="text" name="username"><br><br>
+                <label>Password</label>
+                <input id="password" type="password" name="password"><br><br>
+                 <input id="submit-id" type="submit" value="Login">
+                <p id="incorrect">Your Password or Username is Incorrect</p>
+            </div>
+        </form>
+        <div class="redirect-signup">
+            <p id="p">If you dont have a account<a href="{% url "signup" %}" class="button"> Click here to create one</a></p>
+        </div>
+    </div>
+
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+         $("#login-form").submit(function (event) {
+            let url = '{% url "login" %}';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#login-form").serialize(),
+                success: function (response_data) {
+                    console.log("status code : ",response_data);
+                    if(response_data.message === "error"){
+                        $("#incorrect").show()
+                    }
+                    if(response_data.message === "success"){
+                        window.location.href = '{% url "products" %}'
+                    }
+                }
+            })
+
+            event.preventDefault()
+        })
+    </script>
+{% endblock %}

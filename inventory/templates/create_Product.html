@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        *{
+            box-sizing: border-box;
+        }
+        .wrapper{
+            box-sizing: border-box;
+            border: 0.5px solid #FFFFFF;
+            position: relative;
+            width: 328px;
+            height: auto; /* adjust height to fit content */
+            background: #00759A;
+            border-radius: 7px;
+            margin-top: 100px;
+            margin-left: 728px;
+            padding: 20px; /* reduce padding to avoid overflow */
+            overflow: auto; /* add scrollbar if content overflows */
+        }
+        #product-form{
+            font-family: "JetBrains Mono", serif;
+            font-weight: 300;
+            color: #FFFFFF;
+            {#margin-top: 51px;#}
+            display: flex;
+            position: relative;
+            align-items: center;
+            flex-direction: column;
+        }
+        input{
+            row-gap: 1px;
+        }
+    </style>
+    <div class="wrapper">
+        <form id="product-form" method="post">
+            {% csrf_token %}
+            <label>Name</label>
+            <input type="text" name="name"><br><br>
+            <label>Price</label>
+            <input type="number" name="price"><br><br>
+            <label>Barcode</label>
+            <input type="text" name="barcode"><br><br>
+            <label>Expiry Date</label>
+            <input type="datetime-local" name="expiry_date"><br><br>
+            <label>Quantity</label>
+            <input type="number" name="quantity"><br><br>
+            <label>Tag</label>
+            <input type="text" name="tag"><br><br>
+            <label>Description</label>
+            <input type="text" name="description"><br><br>
+            <input type="submit">
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $("#product-form").submit(function (event) {
+            let url = '{% url "create_product" %}';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#product-form").serialize(),
+                success: function (response_data) {
+                    console.log(response_data)
+                }
+            })
+
+            event.preventDefault()
+        })
+    </script>
+{% endblock %}

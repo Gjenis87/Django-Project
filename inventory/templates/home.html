@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <p>{{ first_name }}</p>
+    <p>{{ last_name }}</p>
+    <p>{{ age }}</p>
+    {% if flag %}
+        <p>{{ country }}</p>
+    {% else %}
+        <p>No country</p>
+    {% endif %}
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+
+    </script>
+{% endblock %}

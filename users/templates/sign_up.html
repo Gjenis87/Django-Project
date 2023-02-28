@@ -1,0 +1,181 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inspiration&display=swap');
+
+        .wrapper{
+            box-sizing: border-box;
+            border: 0.5px solid #FFFFFF;
+            position: relative;
+            width: 420px;
+            height: 870px; /* adjust height to fit content */
+            background: #00759A;
+            border-radius: 12px;
+            margin-top: 40px;
+            margin-left: 728px;
+            {#padding: 20px; /* reduce padding to avoid overflow */#}
+            {#overflow: auto; /* add scrollbar if content overflows */#}
+        }
+        #signUp-form{
+            font-family: "JetBrains Mono", serif;
+            font-weight: 300;
+            color: #FFFFFF;
+
+            {#margin-top: 51px;#}
+            display: flex;
+            position: relative;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #signUp-form{
+            margin-top: 8px;
+            {#margin-bottom: 10px;#}
+        }
+
+        .input-container{
+            margin-top: 15px;
+            text-align: center;
+        }
+        input{
+            margin-bottom: 34px;
+            box-sizing: border-box;
+            width: 238px;
+            height: 26px;
+            left: 44px;
+            top: 185px;
+            background: rgba(217, 217, 217, 0.51);
+            border: 1px solid #FFFFFF;
+            border-radius: 9px;
+        }
+        label{
+            margin-bottom: 4px;
+            font-family: 'Inder', serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 20px;
+            line-height: 19px;
+            color: #FFFFFF;
+            {#text-align: center;#}
+        }
+        input,label{
+            display: block;
+        }
+        span{
+            font-family: 'Inder',serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 25px;
+            line-height: 20px;
+        }
+        h2{
+            text-align: center;
+            font-family: 'Inspiration', cursive;
+            font-weight: 400;
+            font-size:50px;
+            line-height: 62px;
+            color: #FFFFFF;
+            margin-top: 20px;
+            margin-bottom: 39px;
+        }
+
+        #incorrect{
+            display: none;
+            color: red;
+            font-size: 15px;
+        }
+        #phoneIncorrect{
+            display: none;
+            color: red;
+            font-size: 15px;
+        }
+        input[value="Signup"] {color: #FFFFFF; font-size: 20px; font-family: 'Inder',serif; font-weight: 400; line-height: 19px;padding-bottom: 2px}
+    </style>
+    <div class="wrapper">
+        <h2>Gjenis Co</h2>
+        <form id="signUp-form" method="post">
+            <span>Signup</span>
+            {% csrf_token %}
+            <div class="input-container">
+                <label>Username</label>
+                <input type="text" name="username">
+                <label id="">Password</label>
+                <input type="password" id="id_password" name="password">
+                <label>Confirm Password</label>
+                <input type="password" id="confirm_pass" name="confirm_password">
+                <p id="incorrect">Passwords didn't match</p>
+                <label>First Name</label>
+                <input type="text" name="first_name">
+                <label>Last Name</label>
+                <input type="text" name="last_name">
+                <label>Email</label>
+                <input type="email" name="email">
+                <label> Phone Number</label>
+                <input type="text" name="phone_number" id="phoneNum">
+                <p id="phoneIncorrect"> Phone Number Must Be Only Number</p>
+                <label> Country Code</label>
+                <input type="text" name="country_code">
+                <input id="submit-button" type="submit" value="Signup" disabled>
+            </div>
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        function handlePhoneNumber(){
+            let phone = $('#phoneNum').val()
+            if(isNaN(phone)){
+                $('#phoneIncorrect').show()
+            }else {
+                $('#phoneIncorrect').hide()
+            }
+        }
+        function handleConfirmPassword() {
+            let password = $('#id_password').val()
+            let confirm = $('#confirm_pass').val()
+            if(password !== confirm){
+                $("#incorrect").show()
+                $("#submit-button").prop("disabled", true)
+            } else {
+                $("#submit-button").prop("disabled", false)
+                $("#incorrect").hide()
+            }
+        }
+
+
+        $("#confirm_pass").on("input", function () {
+            handleConfirmPassword()
+        })
+
+        $("#id_password").on("input", function () {
+            if ($('#confirm_pass').val()) {
+                handleConfirmPassword()
+            }
+        })
+        $("#phoneNum").on("input", function (){
+            handlePhoneNumber()
+
+        })
+
+        $("#signUp-form").submit(function (event) {
+            let url = '{% url "signup" %}';
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#signUp-form").serialize(),
+                success: function (response_data) {
+                    if(response_data.message === "success"){
+                        window.location.href = '{% url "login" %}'
+                    }
+                    console.log(response_data)
+                }
+            })
+
+            event.preventDefault()
+        })
+    </script>
+{% endblock %}
