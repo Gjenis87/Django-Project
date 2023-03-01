@@ -8,4 +8,11 @@
     <p> quantity: {{ product.quantity }}</p>
     <p> tag: {{ product.tag }}</p>
     <p> description: {{ product.description }}</p>
+    {% for company in product.companies.all %}
+        <p>User: {{ company }}</p>
+    {% endfor %}
+    {% for company in companies %}
+        <p>Company Name: {{ company.company_name }}</p>
+    {% endfor %}
+
 {% endblock %}

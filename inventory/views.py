@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from inventory.models import Product
+from inventory.models import Product, Company
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -32,6 +32,10 @@ def create_product(request, template_name="templates/create_Product.html"):
             tag=request.POST.get("quantity"),
             description=request.POST.get("description")
         )
+        company = Company.objects.create(
+            company_name=request.POST.get("company_name"),
+            product=product,
+        )
 
         return JsonResponse({"message": "success"}, status=200)
 
@@ -40,14 +44,6 @@ def product_list(request, template_name="templates/productsLists.html"):
     data = {}
     products = Product.objects.filter()
     data["products"] = products
-
-    return render(request, template_name, data)
-
-
-def single_product(request, pk, template_name="templates/single_product.html"):
-    data = {}
-    product = Product.objects.get(pk=pk)
-    data["product"] = product
 
     return render(request, template_name, data)
 
@@ -70,8 +66,22 @@ def edit_product(request, pk, template_name="templates/edit_Product.html"):
             tag=request.POST.get("tag"),
             description=request.POST.get("description"),
         )
+        company = Company.objects.create(
+            company_name=request.POST.get("company_name")
+        )
 
         return JsonResponse({"message": "success"}, status=200)
+
+
+def single_product(request, pk, template_name="templates/single_product.html"):
+    data = {}
+    product = Product.objects.get(pk=pk)
+    companies = Company.objects.filter(product=product)
+
+    data["product"] = product
+    data["companies"] = companies
+
+    return render(request, template_name, data)
 
 
 def delete_product(request, pk):
