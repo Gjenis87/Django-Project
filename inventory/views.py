@@ -1,6 +1,7 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from inventory.models import Product, Company
+from django.core.serializers import serialize
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
@@ -29,23 +30,31 @@ def create_product(request, template_name="templates/create_Product.html"):
             barcode=request.POST.get("barcode"),
             expiry_date=request.POST.get("expiry_date"),
             quantity=request.POST.get("quantity"),
-            tag=request.POST.get("quantity"),
+            tag=request.POST.get("tag"),
             description=request.POST.get("description")
         )
         company = Company.objects.create(
             company_name=request.POST.get("company_name"),
-            product=product,
+            user=request.user,
+            product=product
         )
 
         return JsonResponse({"message": "success"}, status=200)
 
 
+@csrf_exempt
 def product_list(request, template_name="templates/productsLists.html"):
-    data = {}
-    products = Product.objects.filter()
-    data["products"] = products
+    if request.method == "GET":
+        data = {}
+        products = Product.objects.filter()
+        data["products"] = products
 
-    return render(request, template_name, data)
+        return render(request, template_name, data)
+    if request.method == "POST":
+        tag = request.POST.get("tag")
+        products = Product.objects.filter(tag=tag)
+        filtered_products = serialize("json", products)
+        return JsonResponse({"message": "success", "filtered_products": filtered_products}, status=200)
 
 
 def edit_product(request, pk, template_name="templates/edit_Product.html"):
@@ -66,8 +75,8 @@ def edit_product(request, pk, template_name="templates/edit_Product.html"):
             tag=request.POST.get("tag"),
             description=request.POST.get("description"),
         )
-        company = Company.objects.create(
-            company_name=request.POST.get("company_name")
+        Company.objects.get(product=product).update(
+            company_name=request.POST.get("company_name"),
         )
 
         return JsonResponse({"message": "success"}, status=200)
@@ -91,3 +100,4 @@ def delete_product(request, pk):
     product.delete()
 
     return redirect("products")
+

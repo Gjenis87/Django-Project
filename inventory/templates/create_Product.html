@@ -29,29 +29,36 @@
             flex-direction: column;
         }
         input{
+            margin-top: 10px;
             row-gap: 1px;
+            border-radius: 7px;
+            border: 1px solid #ffffff;
         }
+        label{
+            margin-top: 10px;
+        }
+         input[value="submit"] {color:#ffffff; font-size: 20px; font-family: 'Inder',serif; font-weight: 400; line-height: 19px;padding-bottom: 2px;background: orange;border: none}
     </style>
     <div class="wrapper">
         <form id="product-form" method="post">
             {% csrf_token %}
             <label>Name</label>
-            <input type="text" name="name"><br><br>
+            <input type="text" name="name">
             <label>Price</label>
-            <input type="number" name="price"><br><br>
+            <input type="number" name="price">
             <label>Barcode</label>
-            <input type="text" name="barcode"><br><br>
+            <input type="text" name="barcode">
             <label>Expiry Date</label>
-            <input type="datetime-local" name="expiry_date"><br><br>
+            <input type="datetime-local" name="expiry_date">
             <label>Quantity</label>
-            <input type="number" name="quantity"><br><br>
+            <input type="number" name="quantity">
             <label>Tag</label>
-            <input type="text" name="tag"><br><br>
+            <input type="text" name="tag">
             <label>Description</label>
-            <input type="text" name="description"><br><br>
+            <input type="text" name="description">
             <label>Company</label>
             <input type="text" name="company_name">
-            <input type="submit">
+            <input type="submit" id="submit" value="submit">
         </form>
     </div>
 

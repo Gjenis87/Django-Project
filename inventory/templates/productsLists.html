@@ -7,12 +7,13 @@
           border-collapse: collapse;
         }
         table{
-            position: relative;
+            position: absolute;
             width: 1210px;
             height: 537px;
             background: #00759A;
             margin-top: 100px;
             margin-left: 200px;
+            {#table-layout: fixed;#}
         }
         th, td {
             font-family: "JetBrains Mono", serif;
@@ -26,6 +27,7 @@
         }
         td{
             text-align: center;
+            overflow: hidden;
         }
         button_container{
             display: flex;
@@ -86,14 +88,24 @@
           margin-left: 1240px;
 
         }
+        #product-table{
+            display: table;
+        }
     </style>
+    {% csrf_token %}
     <div class="add_button">
         <div class="add_button__circle">
             <button type="button" class="create" onclick="createProduct('{% url "create_product"%}')">Create</button> <br>
         </div>
     </div>
     {% if products %}
-        <table>
+            <label for="tag-selector">Choose a tag:</label>
+            <select id="tag-selector">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+        <table id="product-table">
             <tr>
                 <th>Name</th>
                 <th>Price</th>
@@ -105,13 +117,13 @@
                 <th>Actions</th>
             </tr>
             {% for product in products %}
-                <tr>
+                <tr class="existing-products">
                     <td>{{ product.name }}</td>
                     <td>{{ product.price }} $ </td>
                     <td>{{ product.barcode }}</td>
                     <td>{{ product.expiry_date }}</td>
                     <td>{{ product.quantity }}</td>
-                    <td class="tag">{{ product.tag }}</td>
+                    <td>{{ product.tag }}</td>
                     <td>{{ product.description }}</td>
                     <td>
                         <div class="button_container row">
@@ -132,6 +144,50 @@
 
 {% block custom_scripts %}
     <script>
+        {#$('#product-table').hide()#}
+        $('#tag-selector').change(function () {
+            let selectedTag=$(this).val();
+            $.ajax({
+                type: "POST",
+                url: '{% url "products" %}',
+                data: {
+                    "tag": selectedTag
+                },
+                success: function (response) {
+                    console.log(response.filtered_products)
+                    if (response.message === 'success') {
+                        $('.existing-products').hide()
+                    }
+                    if(response.filtered_products){
+                        let filtered_products = JSON.parse(response.filtered_products)
+                        for(let i = 0; i < filtered_products.length; i++) {
+                            let expiry_date = new Date(filtered_products[i].fields.expiry_date)
+                            let formatted_date = expiry_date.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })
+                            $("#product-table").append(
+                                "<tr>" +
+                                    "<td>" + filtered_products[i].fields.name + "</td>" +
+                                    "<td>" + filtered_products[i].fields.price + "</td>" +
+                                    "<td>" + filtered_products[i].fields.barcode + "</td>" +
+                                    "<td>" + formatted_date + "</td>" +
+                                    "<td>" + filtered_products[i].fields.quantity + "</td>" +
+                                    "<td>" + filtered_products[i].fields.tag + "</td>" +
+                                    "<td>" + filtered_products[i].fields.description + "</td>" +
+                                    "<td>" +
+                                        "<div class='button_container row'>" +
+                                            "<button type='button' class='view' onclick='viewProduct(" + filtered_products[i].pk + ")'>View</button><br>" +
+                                            "<button type='button' class='edit' onclick='editProduct(" + filtered_products[i].pk + ")'>Edit</button><br>" +
+                                            "<button type='button' class='delete' onclick='deleteProduct(" + filtered_products[i].pk + ")'>Delete</button>" +
+                                        "</div>" +
+                                    "</td>" +
+                                "</tr>"
+                            )
+                        }
+
+                    }
+                }
+            })
+        })
+
         function viewProduct(url) {
             window.location.href = url
         }
