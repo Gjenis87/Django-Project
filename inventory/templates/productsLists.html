@@ -174,9 +174,9 @@
                                     "<td>" + filtered_products[i].fields.description + "</td>" +
                                     "<td>" +
                                         "<div class='button_container row'>" +
-                                            "<button type='button' class='view' onclick='viewProduct(" + filtered_products[i].pk + ")'>View</button><br>" +
-                                            "<button type='button' class='edit' onclick='editProduct(" + filtered_products[i].pk + ")'>Edit</button><br>" +
-                                            "<button type='button' class='delete' onclick='deleteProduct(" + filtered_products[i].pk + ")'>Delete</button>" +
+                                            "<button type='button' class='view' onclick='viewFilteredProduct(" + filtered_products[i].pk + ")'>View</button><br>" +
+                                            "<button type='button' class='edit' onclick='editFilteredProduct(" + filtered_products[i].pk + ")'>Edit</button><br>" +
+                                            "<button type='button' class='delete' onclick='deleteFilteredProduct(" + filtered_products[i].pk + ")'>Delete</button>" +
                                         "</div>" +
                                     "</td>" +
                                 "</tr>"
@@ -199,6 +199,16 @@
         }
         function createProduct(url){
             window.location.href = url
+        }
+
+        function editFilteredProduct(id) {
+            window.location.href = "/inventory/product/edit/" + id
+        }
+        function deleteFilteredProduct(id){
+            window.location.href = "/inventory/product/delete/" + id
+        }
+        function viewFilteredProduct(id){
+            window.location.href = "/inventory/product/"+id
         }
     </script>
 {% endblock %}
