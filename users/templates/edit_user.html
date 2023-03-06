@@ -62,7 +62,7 @@
                 success:function (response_data){
                     console.log(response_data)
                     if(response_data.message === "success"){
-                        window.location.href = '{% url "products" %}'
+                        window.location.href = '{% url "profile" user.pk %}'
                     }
                 }
             })
