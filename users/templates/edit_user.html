@@ -28,7 +28,11 @@
             border-radius: 9px;
         }
         input{
+            margin-top: 2px;
             row-gap: 1px;
+        }
+        #submit{
+            margin-top: 5px;
         }
     </style>
     <div class="wrapper">
@@ -44,7 +48,9 @@
             <input type="text" name="last_name" value="{{ user.last_name }}"><br><br>
             <label>Email</label>
             <input type="email" name="email" value="{{ user.email }}"><br><br>
-            <input type="submit">
+            <label>Phone Number</label>
+            <input type="text" name="phone_number" value="{{ phone.phone_number }}">
+            <input id="sumbit" type="submit">
         </form>
     </div>
 

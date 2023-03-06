@@ -58,6 +58,9 @@ def edit_user(request, pk, template_name="templates/edit_user.html"):
             last_name=request.POST.get("last_name"),
             email=request.POST.get("email"),
         )
+        phone = PhoneNumber.objects.update(
+            phone_number=request.POST.get("phone_number")
+        )
         # user.objects.save()
         return JsonResponse({"message": "success"}, status=200)
 
@@ -71,8 +74,13 @@ def profile_info(request, pk, template_name="templates/profile.html"):
     data = {}
 
     user = User.objects.get(id=pk)
+    if PhoneNumber.objects.filter(user=user).exists():
+        phone_number = PhoneNumber.objects.get(user=user)
+    else:
+        phone_number = None
 
     data["user"] = user
+    data["phone_number"] = phone_number
 
     return render(request, template_name, data)
 
