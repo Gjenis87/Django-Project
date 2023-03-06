@@ -107,16 +107,18 @@
                 <option value="3">3</option>
             </select>
         <table id="product-table">
-            <tr>
-                <th>Name</th>
-                <th>Price</th>
-                <th>Barcode</th>
-                <th>Expiry Date </th>
-                <th>Quantity</th>
-                <th>Tag</th>
-                <th>Description</th>
-                <th>Actions</th>
-            </tr>
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Barcode</th>
+                    <th>Expiry Date </th>
+                    <th>Quantity</th>
+                    <th>Tag</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
             {% for product in products %}
                 <tr class="existing-products">
                     <td>{{ product.name }}</td>
@@ -161,6 +163,8 @@
                     }
                     if(response.filtered_products){
                         let filtered_products = JSON.parse(response.filtered_products)
+                        let tableBody = $("#product-table tbody");
+                        tableBody.empty();
                         for(let i = 0; i < filtered_products.length; i++) {
                             let expiry_date = new Date(filtered_products[i].fields.expiry_date)
                             let formatted_date = expiry_date.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })

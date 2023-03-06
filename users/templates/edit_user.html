@@ -1,0 +1,73 @@
+{% block content %}
+        <style>
+        *{
+            box-sizing: border-box;
+        }
+        .wrapper{
+            box-sizing: border-box;
+            border: 0.5px solid #FFFFFF;
+            position: relative;
+            width: 328px;
+            height: auto; /* adjust height to fit content */
+            background: #00759A;
+            border-radius: 7px;
+            margin-top: 100px;
+            margin-left: 728px;
+            padding: 20px; /* reduce padding to avoid overflow */
+            overflow: auto; /* add scrollbar if content overflows */
+        }
+        #user-edit{
+            font-family: "JetBrains Mono", serif;
+            font-weight: 300;
+            color: #FFFFFF;
+            {#margin-top: 51px;#}
+            display: flex;
+            position: relative;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 9px;
+        }
+        input{
+            row-gap: 1px;
+        }
+    </style>
+    <div class="wrapper">
+        <form id="user-edit" method="post">
+            {% csrf_token %}
+            <label>Username</label>
+            <input type="text" name="username" value="{{ user.username }}"><br><br>
+            <label>Password</label>
+            <input type="password" name="password" value="{{ user.password }}"><br><br>
+            <label>First Name</label>
+            <input type="text" name="first_name" value="{{user.first_name}}"><br><br>
+            <label>Last Name</label>
+            <input type="text" name="last_name" value="{{ user.last_name }}"><br><br>
+            <label>Email</label>
+            <input type="email" name="email" value="{{ user.email }}"><br><br>
+            <input type="submit">
+        </form>
+    </div>
+
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        $("#user-edit").submit(function (event){
+            let url ='{% url "edit" user.pk %}';
+
+            $.ajax({
+                type:"POST",
+                url:url,
+                data: $("#user-edit").serialize(),
+                success:function (response_data){
+                    console.log(response_data)
+                    if(response_data.message === "success"){
+                        window.location.href = '{% url "products" %}'
+                    }
+                }
+            })
+
+            event.preventDefault()
+        })
+    </script>
+{% endblock %}

@@ -47,6 +47,21 @@ def sign_up(request, template_name="templates/sign_up.html"):
         return JsonResponse({"message": "success"}, status=200)
 
 
+def edit_user(request, pk, template_name="templates/edit_user.html"):
+    if request.method == "GET":
+        return render(request, template_name)
+    elif request.method == 'POST':
+        user = User.objects.filter(id=pk).update(
+            username=request.POST.get("username"),
+            password=request.POST.get("password"),
+            first_name=request.POST.get("first_name"),
+            last_name=request.POST.get("last_name"),
+            email=request.POST.get("email"),
+        )
+        # user.objects.save()
+        return JsonResponse({"message": "success"}, status=200)
+
+
 def log_out(request):
     if request.user.is_authenticated:
         logout(request)
