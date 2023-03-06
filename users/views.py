@@ -1,12 +1,14 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from users.models import PhoneNumber
 
 
 def login_user(request, template_name="templates/login.html"):
+    if request.user.is_authenticated:
+        return redirect("products")
     if request.method == 'GET':
         return render(request, template_name)
     if request.method == 'POST':
@@ -21,7 +23,8 @@ def login_user(request, template_name="templates/login.html"):
 
 
 def sign_up(request, template_name="templates/sign_up.html"):
-
+    if request.user.is_authenticated:
+        return redirect("products")
     if request.method == 'GET':
         return render(request, template_name)
     elif request.method == 'POST':
@@ -42,3 +45,10 @@ def sign_up(request, template_name="templates/sign_up.html"):
 
         )
         return JsonResponse({"message": "success"}, status=200)
+
+
+def log_out(request):
+    if request.user.is_authenticated:
+        logout(request)
+    return redirect("login")
+

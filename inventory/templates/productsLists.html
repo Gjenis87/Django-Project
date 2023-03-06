@@ -96,6 +96,7 @@
     <div class="add_button">
         <div class="add_button__circle">
             <button type="button" class="create" onclick="createProduct('{% url "create_product"%}')">Create</button> <br>
+            <button type="button" class="logout" onclick="logout('{% url "logout" %}')">Logout</button>
         </div>
     </div>
     {% if products %}
@@ -198,6 +199,9 @@
             window.location.href = url
         }
         function createProduct(url){
+            window.location.href = url
+        }
+        function logout(url){
             window.location.href = url
         }
 
