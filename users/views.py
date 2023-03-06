@@ -67,3 +67,13 @@ def log_out(request):
         logout(request)
     return redirect("login")
 
+def profile_info(request, pk, template_name="templates/profile.html"):
+    data = {}
+
+    user = User.objects.get(id=pk)
+
+    data["user"] = user
+
+    return render(request, template_name, data)
+
+
