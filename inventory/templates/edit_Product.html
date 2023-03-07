@@ -3,6 +3,10 @@
 
 {% block content %}
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inspiration&display=swap');
+       .navbar{
+            display: none;
+        }
         *{
             box-sizing: border-box;
         }
@@ -32,8 +36,20 @@
         input{
             row-gap: 1px;
         }
+        h2{
+            text-align: center;
+            font-family: 'Inspiration', cursive;
+            font-weight: 400;
+            font-size:50px;
+            line-height: 62px;
+            color: #000000;
+            margin-top: 20px;
+            margin-bottom: 39px;
+        }
     </style>
+
     <div class="wrapper">
+        <h2>Edit Product</h2>
         <form id="product-form" method="post">
             {% csrf_token %}
             <label>Name</label>

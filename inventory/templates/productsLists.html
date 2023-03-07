@@ -133,6 +133,7 @@
                             <button type="button" class="view" onclick="viewProduct('{% url "single_product" product.pk %}')">View</button> <br>
                             <button type="button" class="edit" onclick="editProduct('{% url "edit_product" product.pk %}')">Edit</button> <br>
                             <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" product.pk %}')">Delete</button>
+                            <button type="button" class="Delete" onclick="buy('{% url "profile" user.pk %}')">Buy</button>
                         </div>
 
                     </td>
@@ -206,6 +207,9 @@
             window.location.href = url
         }
         function logout(url){
+            window.location.href = url
+        }
+        function buy(url){
             window.location.href = url
         }
 

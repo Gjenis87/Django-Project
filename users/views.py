@@ -70,6 +70,7 @@ def log_out(request):
         logout(request)
     return redirect("login")
 
+
 def profile_info(request, pk, template_name="templates/profile.html"):
     data = {}
 
@@ -83,5 +84,16 @@ def profile_info(request, pk, template_name="templates/profile.html"):
     data["phone_number"] = phone_number
 
     return render(request, template_name, data)
+
+
+def reset_password(request, pk, template_name="templates/resetpassword.html"):
+    if request.method == 'GET':
+        return render(request, template_name)
+    elif request.method == 'POST':
+        user = User.objects.filter(id=pk).update(
+            password=request.POST.get("new_password"),
+            confirm_password=request.POST.get("confirm_password"),
+        )
+        return JsonResponse({"message": "success"}, status=200)
 
 
