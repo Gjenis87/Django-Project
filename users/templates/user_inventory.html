@@ -1,5 +1,6 @@
 {% block content %}
     <style>
+
         table, th, td {
           border: 0.5px solid #FFFFFF;
           border-collapse: collapse;
@@ -62,9 +63,13 @@
         #product-table{
             display: table;
         }
+        h1{
+            text-align: center;
+        }
     </style>
 
      <table id="product-table">
+            <h1>Personal Inventory</h1>
             <thead>
                 <tr>
                     <th>Name</th>
@@ -77,23 +82,34 @@
                     <th>Actions</th>
                 </tr>
             </thead>
-            {% for product in products %}
+            {% for item in inventory %}
                 <tr class="existing-products">
-                    <td>{{ product.name }}</td>
-                    <td>{{ product.price }} $ </td>
-                    <td>{{ product.barcode }}</td>
-                    <td>{{ product.expiry_date }}</td>
-                    <td>{{ product.quantity }}</td>
-                    <td>{{ product.tag }}</td>
-                    <td>{{ product.description }}</td>
+                    <td>{{ item.product.name }}</td>
+                    <td>{{ item.product.price }} $ </td>
+                    <td>{{ item.product.barcode }}</td>
+                    <td>{{ item.product.expiry_date }}</td>
+                    <td>{{ item.product.quantity }}</td>
+                    <td>{{ item.product.tag }}</td>
+                    <td>{{ item.product.description }}</td>
                     <td>
                         <div class="button_container row">
-                            <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" product.pk %}')">Delete</button>
-                            <button type="button" class="Delete" onclick="buy('{% url "profile" user.pk %}')">Buy</button>
+                            <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" item.product.pk %}')">Delete</button>
+                            <button type="button" class="view" onclick="viewProduct('{% url "single_product" item.product.pk %}')">View</button> <br>
                         </div>
                     </td>
                 </tr>
             {% endfor %}
      </table>
 
+{% endblock %}
+{% block custom_scripts %}
+    <script>
+
+        function Delete(url){
+            window.location.href = url
+        }
+        function View(url){
+            window.location.href = url
+        }
+    </script>
 {% endblock %}

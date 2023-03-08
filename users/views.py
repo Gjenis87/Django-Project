@@ -110,3 +110,15 @@ def buy_product(request):
             product=product
         )
         return JsonResponse({"message": "success"}, status=200)
+
+
+def personal_inventory(request, template_name="templates/user_inventory.html"):
+    data = {}
+    user = request.user
+    inventory = UserInventory.objects.filter(user=user)
+
+    data["inventory"] = inventory
+
+    return render(request, template_name, data)
+
+
