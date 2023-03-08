@@ -133,7 +133,7 @@
                             <button type="button" class="view" onclick="viewProduct('{% url "single_product" product.pk %}')">View</button> <br>
                             <button type="button" class="edit" onclick="editProduct('{% url "edit_product" product.pk %}')">Edit</button> <br>
                             <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" product.pk %}')">Delete</button>
-                            <button type="button" class="Delete" onclick="buy('{% url "profile" user.pk %}')">Buy</button>
+                            <button type="button" class="buy" onclick="buy({{ product.id }})">Buy</button>
                         </div>
 
                     </td>
@@ -209,8 +209,19 @@
         function logout(url){
             window.location.href = url
         }
-        function buy(url){
-            window.location.href = url
+        function buy(product){
+            let url = '{% url "buy_product" %}'
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{
+                    "product": product,
+                },
+                success:function (response_data){
+                    console.log(response_data)
+                }
+            })
         }
 
         function editFilteredProduct(id) {
@@ -222,5 +233,6 @@
         function viewFilteredProduct(id){
             window.location.href = "/inventory/product/"+id
         }
+
     </script>
 {% endblock %}

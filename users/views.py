@@ -2,8 +2,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
+from django.views.decorators.csrf import csrf_exempt
 
-from users.models import PhoneNumber
+from inventory.models import Product
+from users.models import PhoneNumber, UserInventory
 
 
 def login_user(request, template_name="templates/login.html"):
@@ -97,3 +99,14 @@ def reset_password(request, pk, template_name="templates/resetpassword.html"):
         return JsonResponse({"message": "success"}, status=200)
 
 
+@csrf_exempt
+def buy_product(request):
+    if request.method == "POST":
+        print("request here ->", request.POST.get("test_parameter"))
+        product = Product.objects.get(id=request.POST.get('product'))
+
+        inventory = UserInventory.objects.create(
+            user=request.user,
+            product=product
+        )
+        return JsonResponse({"message": "success"}, status=200)

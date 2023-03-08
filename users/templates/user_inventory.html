@@ -1,0 +1,99 @@
+{% block content %}
+    <style>
+        table, th, td {
+          border: 0.5px solid #FFFFFF;
+          border-collapse: collapse;
+        }
+        table{
+            position: absolute;
+            width: 1210px;
+            height: 537px;
+            background: #00759A;
+            margin-top: 100px;
+            margin-left: 200px;
+            {#table-layout: fixed;#}
+        }
+        th, td {
+            font-family: "JetBrains Mono", serif;
+            font-weight: 300;
+            {#font-size: 12px;#}
+            color: #FFFFFF;
+        }
+        th{
+            margin-top: 6px;
+            text-align: center;
+        }
+        td{
+            text-align: center;
+            overflow: hidden;
+        }
+        button_container{
+            display: flex;
+            justify-content: center;
+            align-items: center
+        }
+
+        button_container {
+            position: relative;
+            height: 22px;
+            border-radius: 2px;
+            margin: 0 10px;
+            text-align: center;
+            padding-left: 20px !important;
+        }
+
+        button {
+            margin-left: 30px;
+            line-height: 16px;
+            width: 76px !important;
+        }
+        button:hover{
+            background-color: azure;
+        }
+        button.view{
+            background: #FFFFFF;
+        }
+        button.edit{
+            background: #59C885;
+        }
+        button.delete{
+            background:  #C85959;
+        }
+        #product-table{
+            display: table;
+        }
+    </style>
+
+     <table id="product-table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Price</th>
+                    <th>Barcode</th>
+                    <th>Expiry Date </th>
+                    <th>Quantity</th>
+                    <th>Tag</th>
+                    <th>Description</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            {% for product in products %}
+                <tr class="existing-products">
+                    <td>{{ product.name }}</td>
+                    <td>{{ product.price }} $ </td>
+                    <td>{{ product.barcode }}</td>
+                    <td>{{ product.expiry_date }}</td>
+                    <td>{{ product.quantity }}</td>
+                    <td>{{ product.tag }}</td>
+                    <td>{{ product.description }}</td>
+                    <td>
+                        <div class="button_container row">
+                            <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" product.pk %}')">Delete</button>
+                            <button type="button" class="Delete" onclick="buy('{% url "profile" user.pk %}')">Buy</button>
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+     </table>
+
+{% endblock %}
