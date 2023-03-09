@@ -47,6 +47,8 @@ def product_list(request, template_name="templates/productsLists.html"):
     if request.method == "GET":
         data = {}
         products = Product.objects.filter()
+        data["user"] = request.user
+        print(data["user"].pk)
         data["products"] = products
 
         return render(request, template_name, data)

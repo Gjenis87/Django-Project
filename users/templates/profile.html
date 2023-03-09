@@ -78,7 +78,7 @@
             {% endif %}
             <td>
                 <button type="button" class="edit" onclick="editProfile('{% url "edit" user.pk %}')">Edit</button>
-                <button type="button" id="view" class="view" onclick="viewProducts('{% url "products" %}')">View product</button>
+                <button type="button" id="view" class="view" onclick="viewProducts('{% url "personal_inventory" %}')">View product</button>
             </td>
         </tr>
     </table>

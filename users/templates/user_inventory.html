@@ -68,6 +68,12 @@
         }
     </style>
 
+        <label for="tag-selector">Choose a tag:</label>
+        <select id="tag-selector">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+        </select>
      <table id="product-table">
             <h1>Personal Inventory</h1>
             <thead>
@@ -104,12 +110,65 @@
 {% endblock %}
 {% block custom_scripts %}
     <script>
+        $('#tag-selector').change(function () {
+            let selectedTag=$(this).val();
+            $.ajax({
+                type: "POST",
+                url: '{% url "personal_inventory" %}',
+                data: {
+                    "tag": selectedTag
+                },
+                success: function (response) {
+                    console.log(response.filtered_products)
+                    if (response.message === 'success') {
+                        $('.existing-products').hide()
+                    }
+                    if(response.filtered_products){
+                        let filtered_products = JSON.parse(response.filtered_products)
+                        let tableBody = $("#product-table tbody");
+                        tableBody.empty();
+                        for(let i = 0; i < filtered_products.length; i++) {
+                            let expiry_date = new Date(filtered_products[i].fields.expiry_date)
+                            let formatted_date = expiry_date.toLocaleString('en-US', { month: 'long', day: 'numeric', year: 'numeric', hour: 'numeric', minute: 'numeric', hour12: true })
+                            $("#product-table").append(
+                                "<tr>" +
+                                    "<td>" + filtered_products[i].fields.name + "</td>" +
+                                    "<td>" + filtered_products[i].fields.price + "</td>" +
+                                    "<td>" + filtered_products[i].fields.barcode + "</td>" +
+                                    "<td>" + formatted_date + "</td>" +
+                                    "<td>" + filtered_products[i].fields.quantity + "</td>" +
+                                    "<td>" + filtered_products[i].fields.tag + "</td>" +
+                                    "<td>" + filtered_products[i].fields.description + "</td>" +
+                                    "<td>" +
+                                        "<div class='button_container row'>" +
+                                            "<button type='button' class='view' onclick='viewFilteredProduct(" + filtered_products[i].pk + ")'>View</button><br>" +
+                                            "<button type='button' class='edit' onclick='editFilteredProduct(" + filtered_products[i].pk + ")'>Edit</button><br>" +
+                                            "<button type='button' class='delete' onclick='deleteFilteredProduct(" + filtered_products[i].pk + ")'>Delete</button>" +
+                                        "</div>" +
+                                    "</td>" +
+                                "</tr>"
+                            )
+                        }
 
-        function Delete(url){
+                    }
+                }
+            })
+        })
+
+        function deleteProduct  (url){
             window.location.href = url
         }
-        function View(url){
+        function viewProduct(url){
             window.location.href = url
+        }
+        function deleteFilteredProduct(id){
+            window.location.href = "/inventory/product/list" + id
+        }
+        function viewFilteredProducts(id){
+            window.location.href = "/inventory/product/list" + id
+        }
+        function editFilteredProducts(id){
+            window.location.href = "/inventory/product/list" + id
         }
     </script>
 {% endblock %}

@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
@@ -12,6 +13,7 @@ def login_user(request, template_name="templates/login.html"):
     if request.user.is_authenticated:
         return redirect("products")
     if request.method == 'GET':
+
         return render(request, template_name)
     if request.method == 'POST':
         username = request.POST['username']
@@ -113,6 +115,11 @@ def buy_product(request):
 
 
 def personal_inventory(request, template_name="templates/user_inventory.html"):
+    # if request.method == "POST":
+    #     tag = request.method.get("tag")
+    #     products = Product.objects.filter(tag=tag)
+    #     filtered_products = serialize("json", products)
+    #     return JsonResponse({"message": "success", "filtered_products": filtered_products})
     data = {}
     user = request.user
     inventory = UserInventory.objects.filter(user=user)
@@ -120,5 +127,7 @@ def personal_inventory(request, template_name="templates/user_inventory.html"):
     data["inventory"] = inventory
 
     return render(request, template_name, data)
+
+
 
 
