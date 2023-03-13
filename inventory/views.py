@@ -5,6 +5,7 @@ from django.core.serializers import serialize
 
 # Create your views here.
 from django.views.decorators.csrf import csrf_exempt
+from users.helpers import check_user_group
 
 
 def home(request, template_name="templates/home.html"):
@@ -21,6 +22,11 @@ def home(request, template_name="templates/home.html"):
 
 @csrf_exempt
 def create_product(request, template_name="templates/create_Product.html"):
+    user = request.user
+    print(user)
+    print(check_user_group(user, "Customer"))
+    if check_user_group(user, "Customer"):
+        return redirect("products")
     if request.method == "GET":
         return render(request, template_name)
     elif request.method == "POST":

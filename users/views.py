@@ -4,6 +4,7 @@ from django.core.serializers import serialize
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
+from .helpers import check_user_group
 
 from inventory.models import Product
 from users.models import PhoneNumber, UserInventory
@@ -79,6 +80,8 @@ def profile_info(request, pk, template_name="templates/profile.html"):
     data = {}
 
     user = User.objects.get(id=pk)
+    print(user)
+    print(check_user_group(user, "Seller"))
     if PhoneNumber.objects.filter(user=user).exists():
         phone_number = PhoneNumber.objects.get(user=user)
     else:
