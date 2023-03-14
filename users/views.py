@@ -6,15 +6,16 @@ from django.shortcuts import render, redirect
 from django.views.decorators.csrf import csrf_exempt
 from .helpers import check_user_group
 
-from inventory.models import Product
+from inventory.models import Product, Company
+
 from users.models import PhoneNumber, UserInventory
 
 
+@csrf_exempt
 def login_user(request, template_name="templates/login.html"):
     if request.user.is_authenticated:
         return redirect("products")
     if request.method == 'GET':
-
         return render(request, template_name)
     if request.method == 'POST':
         username = request.POST['username']
@@ -22,7 +23,12 @@ def login_user(request, template_name="templates/login.html"):
         user = authenticate(username=username, password=password)
         if user is not None:
             login(request, user)
-            return JsonResponse({"message": "success"}, status=200)
+            if check_user_group(user, "Seller") and Company.objects.filter(user=user).exists():
+                return JsonResponse({"message": "success_seller"}, status=200)
+            elif check_user_group(user, "Seller") and not Company.objects.filter(user=user).exists():
+                return JsonResponse({"message": "success_create"}, status=200)
+            else:
+                return JsonResponse({"message": "success"}, status=200)
         else:
             return JsonResponse({"message": "error"}, status=200)
 
@@ -130,6 +136,25 @@ def personal_inventory(request, template_name="templates/user_inventory.html"):
     data["inventory"] = inventory
 
     return render(request, template_name, data)
+
+
+def sign_up_seller(request, template_name="templates/sign_up_seller.html"):
+    if request.method == "GET":
+        return render(request, template_name)
+
+    if request.method == "POST":
+        user = User.objects.create_user(
+            username=request.POST.get("username"),
+            password=request.POST.get("password"),
+            first_name=request.POST.get("first_name"),
+            last_name=request.POST.get("last_name"),
+            email=request.POST.get("email")
+        )
+        phone_number = PhoneNumber.objects.create(
+            phone_number=request.POST.get("phone_number")
+        )
+        return JsonResponse({"message": "success"}, status=200)
+
 
 
 

@@ -54,7 +54,6 @@ def product_list(request, template_name="templates/productsLists.html"):
         data = {}
         products = Product.objects.filter()
         data["user"] = request.user
-        print(data["user"].pk)
         data["products"] = products
 
         return render(request, template_name, data)
@@ -108,4 +107,21 @@ def delete_product(request, pk):
     product.delete()
 
     return redirect("products")
+
+
+@csrf_exempt
+def create_company(request, template_name="templates/create_company.html"):
+    if request.method == "GET":
+        return render(request, template_name)
+
+    if request.method == "POST":
+        company = Company.objects.create(
+            company_name=request.POST.get("company_name"),
+            company_description=request.POST.get("company_description"),
+            user=request.user,
+
+
+        )
+        return JsonResponse({"message": "success"}, status=200)
+
 
