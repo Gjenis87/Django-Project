@@ -10,7 +10,7 @@ class Product(models.Model):
     quantity = models.IntegerField(blank=False, null=False)
     tag = models.CharField(max_length=10, null=False, blank=False)
     description = models.CharField(max_length=200, null=False, blank=False)
-    companies = models.ForeignKey(User, on_delete=models.CASCADE,null=True, blank=False)
+    companies = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=False)
 
 
 class Company(models.Model):
@@ -18,3 +18,7 @@ class Company(models.Model):
     company_name = models.CharField(max_length=60, null=False, blank=False)
     company_description = models.TextField(max_length=300, null=True, blank=True, default='Company Description...')
 
+
+class CompanyInventory(models.Model):
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    product = models.ForeignKey('inventory.Product', on_delete=models.CASCADE)

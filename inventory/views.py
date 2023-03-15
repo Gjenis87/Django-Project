@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from django.shortcuts import render, redirect
-from inventory.models import Product, Company
+from inventory.models import Product, Company, CompanyInventory
 from django.core.serializers import serialize
 
 # Create your views here.
@@ -39,9 +39,9 @@ def create_product(request, template_name="templates/create_Product.html"):
             tag=request.POST.get("tag"),
             description=request.POST.get("description")
         )
-        company = Company.objects.create(
-            company_name=request.POST.get("company_name"),
-            user=request.user,
+        company = Company.objects.get(user=user)
+        company_inv = CompanyInventory.objects.create(
+            company=company,
             product=product
         )
 
@@ -92,7 +92,7 @@ def edit_product(request, pk, template_name="templates/edit_Product.html"):
 def single_product(request, pk, template_name="templates/single_product.html"):
     data = {}
     product = Product.objects.get(pk=pk)
-    companies = Company.objects.filter(product=product)
+    companies = CompanyInventory.objects.filter(product=product)
 
     data["product"] = product
     data["companies"] = companies
@@ -101,12 +101,10 @@ def single_product(request, pk, template_name="templates/single_product.html"):
 
 
 def delete_product(request, pk):
-
-    # if request.method == "DELETE":
-    product = Product.objects.filter(id=pk)
-    product.delete()
-
-    return redirect("products")
+    if request.method == "POST":
+        product = Product.objects.filter(id=pk)
+        product.delete()
+        return JsonResponse({"message": "success"}, status=200)
 
 
 @csrf_exempt
@@ -123,5 +121,18 @@ def create_company(request, template_name="templates/create_company.html"):
 
         )
         return JsonResponse({"message": "success"}, status=200)
+
+
+def company_inventory(request, template_name="templates/company_inventory.html"):
+
+    data = {}
+    user = request.user
+    company = Company.objects.get(user=user)
+    inventory = CompanyInventory.objects.filter(company=company)
+    print(inventory)
+    data["inventory"] = inventory
+
+    return render(request, template_name, data)
+
 
 
