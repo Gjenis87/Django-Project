@@ -1,0 +1,183 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inspiration&display=swap');
+        .navbar{
+            display: none;
+        }
+
+        .sidebar{
+            position: absolute;
+            width: 288px;
+            {#height: 700px;#}
+            border: 1px solid white;
+            background: #1C2434;
+            display: inline-block;
+            text-align: center;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            height: 100%;
+
+        }
+
+       #dashboard{
+           margin-top: 1px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px 8px 15px;
+            gap: 10px;
+
+
+            position: absolute;
+            height: 40px;
+            left: 8.93%;
+            right: 8.93%;
+
+
+            background: #333A48;
+            border-radius: 3px;
+            font-family: 'Poppins',serif;
+            font-style: normal;
+            font-size: 18px;
+            line-height: 24px;
+            color: #DEE4EE;
+
+
+       }
+       .sidebar-menu{
+           margin-top: 104px;
+       }
+       #navigation{
+            margin-top: 12px;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px 8px 15px;
+            gap: 10px;
+
+
+            position: absolute;
+            height: 40px;
+            left: 8.93%;
+            right: 8.93%;
+
+
+            background: #333A48;
+            border-radius: 3px;
+            font-family: 'Poppins',serif;
+            font-style: normal;
+            font-size: 18px;
+            line-height: 24px;
+            color: #DEE4EE;
+       }
+       .sidebar-menu-navigation{
+           margin-top: 80px;
+       }
+       #profile{
+           display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px 8px 15px;
+            gap: 10px;
+
+
+            position: absolute;
+            height: 40px;
+            left: 8.93%;
+            right: 8.93%;
+
+
+            background: #333A48;
+            border-radius: 3px;
+            font-family: 'Poppins',serif;
+            font-style: normal;
+            font-size: 18px;
+            line-height: 24px;
+            color: #DEE4EE;
+       }
+       .sidebar-menu-profile{
+           margin-top: 70px;
+       }
+       li,a{
+           font-family: 'Poppins',serif;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 18px;
+            line-height: 24px;
+            color: #8A99AF;
+           display: inline;
+           justify-content: space-between;
+       }
+
+       ul,li{
+           margin-right: 73px;
+           list-style: none;
+
+
+       }
+       a{
+           text-decoration: none;
+       }
+        a, a:hover { color: #8A99AF; }
+
+        h2{
+            text-align: center;
+            font-family: 'Inspiration', cursive;
+            font-weight: 400;
+            font-size:50px;
+            line-height: 62px;
+            color: #FFFFFF;
+            margin-top: 20px;
+            margin-bottom: 39px;
+        }
+
+        {#ul,li{#}
+        {#  display:inline;#}
+        {#  list-style:none;#}
+        {#  padding: 0px;#}
+        {#  justify-content: space-between;#}
+        {#}#}
+
+
+
+
+
+
+    </style>
+    <div class="sidebar">
+         <h2>Gjenis CO.</h2>
+        <button id="dashboard">Dashboard</button>
+            <div class="sidebar-menu">
+                <ul class="menu-ul">
+                    <li><a href="">OIC Statistic</a></li>
+                    <li><a href="">CRM</a></li>
+                    <li><a href="">Message</a></li>
+                    <li><a href="">Calendar</a></li>
+                </ul>
+            </div>
+        <button id="navigation">Navigation</button>
+            <div class="sidebar-menu-navigation">
+                <ul>
+                    <li><a href="">Leads</a></li>
+                    <li><a href="">Appointments</a></li>
+                </ul>
+            </div>
+
+
+        <button id="profile">Profile</button>
+            <div class="sidebar-menu-profile">
+                <ul>
+                    <li><a href="">Europe/Amsterdam</a></li>
+                    <li><a href="">Profile</a></li>
+                    <li><a href="">Logout</a></li>
+                 </ul>
+            </div>
+
+    </div>
+{% endblock %}

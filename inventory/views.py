@@ -135,4 +135,8 @@ def company_inventory(request, template_name="templates/company_inventory.html")
     return render(request, template_name, data)
 
 
+def company_sidebar(request, template_name="templates/sidebar_seller.html"):
+    return render(request, template_name)
+
+
 
