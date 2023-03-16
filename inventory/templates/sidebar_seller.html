@@ -11,7 +11,7 @@
             position: absolute;
             width: 288px;
             {#height: 700px;#}
-            border: 1px solid white;
+            {#border: 1px solid white;#}
             background: #1C2434;
             display: inline-block;
             text-align: center;
@@ -19,6 +19,7 @@
             left: 0;
             bottom: 0;
             height: 100%;
+            border: none;
 
         }
 
@@ -45,6 +46,7 @@
             font-size: 18px;
             line-height: 24px;
             color: #DEE4EE;
+            border: none;
 
 
        }
@@ -74,6 +76,7 @@
             font-size: 18px;
             line-height: 24px;
             color: #DEE4EE;
+            border: none;
        }
        .sidebar-menu-navigation{
            margin-top: 80px;
@@ -91,6 +94,7 @@
             height: 40px;
             left: 8.93%;
             right: 8.93%;
+            border: none;
 
 
             background: #333A48;
@@ -111,7 +115,7 @@
             font-size: 18px;
             line-height: 24px;
             color: #8A99AF;
-           display: inline;
+             display: inline;
            justify-content: space-between;
        }
 
@@ -123,6 +127,8 @@
        }
        a{
            text-decoration: none;
+           float: left;
+
        }
         a, a:hover { color: #8A99AF; }
 
@@ -136,18 +142,7 @@
             margin-top: 20px;
             margin-bottom: 39px;
         }
-
-        {#ul,li{#}
-        {#  display:inline;#}
-        {#  list-style:none;#}
-        {#  padding: 0px;#}
-        {#  justify-content: space-between;#}
-        {#}#}
-
-
-
-
-
+        a
 
     </style>
     <div class="sidebar">
@@ -155,17 +150,19 @@
         <button id="dashboard">Dashboard</button>
             <div class="sidebar-menu">
                 <ul class="menu-ul">
-                    <li><a href="">OIC Statistic</a></li>
-                    <li><a href="">CRM</a></li>
-                    <li><a href="">Message</a></li>
-                    <li><a href="">Calendar</a></li>
+                    <a href="">OIC Statistic</a><br><br>
+                    <a href="">CRM</a><br><br>
+                    <a href="{% url "create_product" %}">Create Product</a><br><br>
+                    <a href="">Message</a><br><br>
+                    <a href="">Calendar</a><br><br>
+
                 </ul>
             </div>
         <button id="navigation">Navigation</button>
             <div class="sidebar-menu-navigation">
                 <ul>
-                    <li><a href="">Leads</a></li>
-                    <li><a href="">Appointments</a></li>
+                    <a href="">Leads</a><br><br>
+                    <a href="">Appointments</a><br><br>
                 </ul>
             </div>
 
@@ -173,9 +170,9 @@
         <button id="profile">Profile</button>
             <div class="sidebar-menu-profile">
                 <ul>
-                    <li><a href="">Europe/Amsterdam</a></li>
-                    <li><a href="">Profile</a></li>
-                    <li><a href="">Logout</a></li>
+                    <a href="">Europe/Amsterdam</a><br><br>
+                    <a href="{% url "profile" user.pk %}">Profile</a><br><br>
+                    <a href="{% url "logout" %}">Logout</a><br><br>
                  </ul>
             </div>
 

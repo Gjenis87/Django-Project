@@ -100,9 +100,10 @@ def single_product(request, pk, template_name="templates/single_product.html"):
     return render(request, template_name, data)
 
 
-def delete_product(request, pk):
+def delete_product(request):
     if request.method == "POST":
-        product = Product.objects.filter(id=pk)
+        product_id = request.POST.get("product")
+        product = Product.objects.filter(id=product_id)
         product.delete()
         return JsonResponse({"message": "success"}, status=200)
 
