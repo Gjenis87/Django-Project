@@ -150,8 +150,14 @@
         <button id="dashboard">Dashboard</button>
             <div class="sidebar-menu">
                 <ul class="menu-ul">
-                    <a href="">OIC Statistic</a><br><br>
-                    <a href="">CRM</a><br><br>
+                    <a href="" onclick="toggleDropdown()">Email</a><br><br>
+                        <select id="email-status" name="email-status" style="display: none"><br><br>
+                            <option value="Draft">Draft</option>
+                            <option value="Scheduled">Scheduled</option>
+                            <option value="Sent">Sent</option>
+                            <option value="Archived">Scheduled</option>
+                        </select>
+                    <a href="">Deals</a><br><br>
                     <a href="{% url "create_product" %}">Create Product</a><br><br>
                     <a href="">Message</a><br><br>
                     <a href="">Calendar</a><br><br>
@@ -177,4 +183,16 @@
             </div>
 
     </div>
+{% endblock %}
+
+{% block custom_scripts %}
+    <script>
+        function toggleDropdown(){
+            let dropdown = document.getElementById("email-status")
+            if(dropdown.style.display === "none") {
+                dropdown.style.display = "block";
+            }
+        }
+    </script>
+
 {% endblock %}

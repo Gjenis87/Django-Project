@@ -1,0 +1,237 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    body{
+        background: #288FB4;;
+    }
+    .navbar{
+        display: none;
+    }
+    .wrapper{
+        width: 390px;
+        height: 650px;
+        background: #FFFFFF;
+        box-shadow:  0px 4px 20px rgba(77, 166, 186, 0.38);
+        border-radius: 20px;
+        {#margin: 0 auto;#}
+        margin-top: 100px;
+        margin-left: 728px;
+        padding: 20px;
+
+
+    }
+    #card_register_form{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 16px 30px 30px;
+        font-family: 'Roboto',serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 19px;
+        color: black;
+    }
+    #full_name{
+        width: 300px;
+        height: 40px;
+        border: 1px solid #E2E6EE;
+        box-shadow: 0px 4px 18px rgba(158, 168, 189, 0.31);
+        border-radius: 10px;
+        align-self: stretch;
+    }
+    h2{
+        text-align: center;
+    }
+    #card_number {
+        width: 300px;
+        height: 40px;
+        background: #E2E6EE;
+        border-radius: 10px;
+        align-self: stretch;
+        border: 1px solid #E2E6EE;
+    }
+    #exp_date{
+        width: 144px;
+        height: 40px;
+        flex-direction: row;
+        background: #E2E6EE;
+        border-radius: 10px;
+        padding: 8px 12px;
+        border: 1px solid #E2E6EE;
+    }
+    #cvv_code{
+        width: 144px;
+        height: 40px;
+        flex-direction: row;
+        background: #E2E6EE;
+        border-radius: 10px;
+        padding: 8px 12px;
+        border: 1px solid #E2E6EE;
+    }
+    #credit_limit{
+        width: 300px;
+        height: 40px;
+        border: 1px solid #E2E6EE;
+        box-shadow: 0px 4px 18px rgba(158, 168, 189, 0.31);
+        border-radius: 10px;
+        align-self: stretch;
+
+    }
+    #bilance{
+        width: 144px;
+        height: 40px;
+        flex-direction: row;
+        {#background: #E2E6EE;#}
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: #dcfcfc;
+        border: 1px solid #E2E6EE;
+    }
+    #submit{
+        width: 300px;
+        height: 40px;
+        background: #288FB4;
+        border-radius: 10px;
+        border: 1px solid #E2E6EE;
+    }
+    p{
+        font-family: 'Roboto',serif;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 14px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #030102;
+        justify-content: center;
+    }
+    #card_error{
+        display: none;
+    }
+    #card_exp{
+        display: none;
+    }
+    #cvv_error{
+        display: none;
+    }
+    </style>
+
+
+    <div class="wrapper">
+        <h2>Register Your Card</h2>
+        <form id="card_register_form" method="post">
+            {% csrf_token %}
+            <label>Full Name</label>
+            <input type="text" name="first_name" id="full_name" value="{{ user.first_name }} {{ user.last_name }}">
+            <label>Card Number</label>
+            <input type="number" id="card_number" name="credit_card_number" placeholder="1234 3213 4211 3213" >
+            <p id="card_error">Invalid type of Card Number please check again</p>
+            <label>Expiration Date</label>
+            <input id="exp_date" type="text" name="expiration_date" placeholder="MM/YY">
+            <p id="card_exp">You must provide exp date</p>
+            <label>Cvv_code</label>
+            <input id="cvv_code" type="number" name="cvv_code" placeholder="...">
+            <p id="cvv_error">Cvv must be 3 digits only</p>
+            <label>Credit Card Limit</label>
+            <input  id="credit_limit" type="number" name="credit_card_limit" placeholder="$">
+            <label>Bilance</label>
+            <input  id="bilance" type="number" name="bilance" placeholder="$">
+            <p id="balance_error">Balance cannot be empty</p>
+            <input type="submit" id="submit" value="Confirm Register" disabled>
+                <p>You verify that this info is correct</p>
+        </form>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+
+    <script>
+
+        const amountInput = document.getElementById('credit_limit');
+        amountInput.value = '$';
+
+        function handleCardNumber(){
+            let cardNum = $('#card_number').val()
+            if(isNaN(cardNum) || cardNum.length>16){
+                $('#card_error').show()
+                $('#submit').prop("disabled", true)
+            }else {
+                $('#card_error').hide()
+                $('#submit').prop("disabled", false)
+            }
+        }
+        $("#card_number").on("input", function () {
+            handleCardNumber()
+        })
+
+        function handleExpDate() {
+            let exp = $("#exp_date").val()
+            if (exp === ""){
+                $("#card_exp").show()
+                $('#submit').prop("disabled", true)
+            }else {
+                $("#card_exp").hide()
+                $('#submit').prop("disabled", false)
+            }
+
+        }
+        $("#exp_date").on("input", function () {
+            handleExpDate()
+        })
+
+        function handleCvv() {
+            let cvv = $("#cvv_code").val()
+            if(isNaN(cvv) && cvv.length>3){
+                $("#cvv_error").show()
+            }else {
+                $("#cvv_error").hide()
+            }
+        }
+        $("#cvv_code").on("input", function () {
+            handleCvv()
+        })
+        function handleBalance() {
+            let bal = $("#bilance").val()
+            if (bal === 0 || isNaN(bal)){
+                $("#balance_error").show()
+            }else {
+                $("#balance_error").hide()
+            }
+        }
+        $("#bilance").on("input", function () {
+            handleBalance()
+        })
+
+        $("#card_register_form").submit(function (event) {
+            let url = '{% url "register_card" %}'
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data: $("#card_register_form").serialize(),
+                success: function (response_data) {
+                    if (response_data.message === "success"){
+                        Swal.fire({
+                            title: 'Success!',
+                            text: 'Do you want to continue',
+                            icon: 'success',
+                            confirmButtonText: 'Cool'
+                          })
+                    }
+
+                }
+
+            })
+            event.preventDefault()
+        })
+    </script>
+{% endblock %}

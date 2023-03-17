@@ -13,3 +13,12 @@ class UserInventory(models.Model):
     product = models.ForeignKey('inventory.Product', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
+
+class CreditCard(models.Model):
+    card_holder = models.ForeignKey(User, on_delete=models.CASCADE)
+    credit_card_number = models.CharField(max_length=16, null=False, blank=False)
+    expiration_date = models.CharField(max_length=6, null=False, blank=False)
+    cvv_code = models.CharField(max_length=4, null=False, blank=False)
+    credit_card_limit = models.DecimalField(max_digits=10, decimal_places=2)
+    bilance = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+

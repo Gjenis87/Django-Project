@@ -130,7 +130,6 @@ def company_inventory(request, template_name="templates/company_inventory.html")
     user = request.user
     company = Company.objects.get(user=user)
     inventory = CompanyInventory.objects.filter(company=company)
-    print(inventory)
     data["inventory"] = inventory
 
     return render(request, template_name, data)

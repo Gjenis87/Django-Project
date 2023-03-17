@@ -8,7 +8,7 @@ from .helpers import check_user_group
 
 from inventory.models import Product, Company
 
-from users.models import PhoneNumber, UserInventory
+from users.models import PhoneNumber, UserInventory, CreditCard
 
 
 @csrf_exempt
@@ -155,6 +155,21 @@ def sign_up_seller(request, template_name="templates/sign_up_seller.html"):
         )
         return JsonResponse({"message": "success"}, status=200)
 
+
+def register_card(request, template_name="templates/register_card.html"):
+    if request.method == "GET":
+        data = {"user": request.user}
+        return render(request, template_name, data)
+    if request.method == "POST":
+        register = CreditCard.objects.create(
+            card_holder=request.user,
+            credit_card_number=request.POST.get("credit_card_number"),
+            expiration_date=request.POST.get("expiration_date"),
+            cvv_code=request.POST.get("cvv_code"),
+            credit_card_limit=request.POST.get("credit_card_limit"),
+            bilance=request.POST.get("bilance")
+        )
+        return JsonResponse({"message": "success"}, status=200)
 
 
 
