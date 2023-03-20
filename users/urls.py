@@ -11,5 +11,6 @@ urlpatterns = [
     path('buy_product', views.buy_product, name="buy_product"),
     path('personal_inventory', views.personal_inventory, name="personal_inventory"),
     path('signUp/seller', views.sign_up_seller, name="signup_seller"),
-    path('register_card', views.register_card, name="register_card")
+    path('register_card', views.register_card, name="register_card"),
+    path('confirm_payment/<int:pk>', views.confirm_payment, name="confirm_payment"),
 ]

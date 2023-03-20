@@ -1,0 +1,211 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <style>
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+    body{
+        background: #288FB4;;
+    }
+    .navbar{
+        display: none;
+    }
+    .wrapper{
+        width: 390px;
+        height: 680px;
+        background: #FFFFFF;
+        box-shadow:  0px 4px 20px rgba(77, 166, 186, 0.38);
+        border-radius: 20px;
+        {#margin: 0 auto;#}
+        margin-top: 100px;
+        margin-left: 728px;
+        padding: 20px;
+
+
+    }
+    #card_payment_form{
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+        padding: 16px 30px 30px;
+        font-family: 'Roboto',serif;
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 19px;
+        color: black;
+        margin-top: 50px;
+    }
+    #full_name{
+        width: 300px;
+        height: 40px;
+        border: 1px solid #E2E6EE;
+        box-shadow: 0px 4px 18px rgba(158, 168, 189, 0.31);
+        border-radius: 10px;
+        align-self: stretch;
+        outline: none;
+    }
+    h2{
+        text-align: center;
+    }
+    #card_number {
+        width: 300px;
+        height: 40px;
+        background: #E2E6EE;
+        border-radius: 10px;
+        align-self: stretch;
+        border: 1px solid #E2E6EE;
+        outline: none;
+    }
+    #exp_date{
+        width: 144px;
+        height: 40px;
+        flex-direction: row;
+        background: #E2E6EE;
+        border-radius: 10px;
+        padding: 8px 12px;
+        border: 1px solid #E2E6EE;
+        outline: none;
+    }
+    #cvv_code{
+        width: 144px;
+        height: 40px;
+        flex-direction: row;
+        background: #E2E6EE;
+        border-radius: 10px;
+        padding: 8px 12px;
+        border: 1px solid #E2E6EE;
+        outline: none;
+    }
+
+    .buy{
+        margin-top: 10px;
+        width: 300px;
+        height: 40px;
+        background: #288FB4;
+        border-radius: 10px;
+        border: 1px solid #E2E6EE;
+        color: white;
+    }
+    p{
+        font-family: 'Roboto',serif;
+        font-style: normal;
+        font-weight: 300;
+        font-size: 12px;
+        line-height: 14px;
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: #030102;
+        justify-content: center;
+    }
+    #card_error{
+        display: none;
+    }
+    #card_exp{
+        display: none;
+    }
+    #cvv_error{
+        display: none;
+    }
+    #Capa_1{
+        width: 104px;
+        height: 65px;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    #verify{
+        margin-top: 5px;
+        margin-right: auto;
+        margin-left: auto;
+    }
+    #bilance{
+        width: 144px;
+        height: 40px;
+        flex-direction: row;
+        {#background: #E2E6EE;#}
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: #dcfcfc;
+        border: 1px solid #E2E6EE;
+        outline: none;
+    }
+    </style>
+
+
+
+
+    <div class="wrapper">
+        {% load static %}
+        <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+	 viewBox="0 0 411.349 411.349" xml:space="preserve">
+<g>
+	<g>
+		<path style="fill:none;" d="M62.269,159.279v31.985h325.08v-31.985c0-7.274-5.92-13.192-13.195-13.192H75.464
+			C68.188,146.086,62.269,152.004,62.269,159.279z"/>
+		<path style="fill:none;" d="M356.435,122.086l-14.728-62.872c-0.012-0.044-0.022-0.089-0.031-0.134
+			c-1.578-7.103-8.643-11.599-15.74-10.021L34.341,113.789c-7.102,1.577-11.596,8.638-10.02,15.741l13.947,63.421v-33.672
+			c0-20.508,16.686-37.192,37.195-37.192H356.435z"/>
+		<path style="fill:none;" d="M62.269,303.197c0,0.018,0,0.036,0,0.054v46.165c0,7.275,5.92,13.193,13.195,13.193h298.69
+			c7.275,0,13.195-5.919,13.195-13.193v-83.068H62.269V303.197z"/>
+		<rect x="62.269" y="215.264" style="fill:#73D0F4;" width="325.08" height="27.083"/>
+		<path style="fill:#3D6889;" d="M381.243,122.772l-16.156-68.974c-4.482-19.976-24.367-32.61-44.354-28.17L29.14,90.36
+			c-20.02,4.445-32.691,24.35-28.254,44.348l37.383,169.975v44.733c0,20.508,16.686,37.193,37.195,37.193h298.69
+			c20.51,0,37.195-16.685,37.195-37.193v-95.068v-51.083v-43.985C411.349,141.196,398.372,126.093,381.243,122.772z
+			 M374.153,146.086c7.275,0,13.195,5.918,13.195,13.192v31.985H62.269v-31.985c0-7.274,5.92-13.192,13.195-13.192H374.153z
+			 M387.349,242.347H62.269v-27.083h325.08V242.347z M38.269,159.279v33.672L24.321,129.53c-1.576-7.103,2.918-14.164,10.02-15.741
+			l291.594-64.731c7.098-1.578,14.162,2.918,15.74,10.021c0.01,0.045,0.02,0.09,0.031,0.134l14.728,62.872H75.464
+			C54.954,122.086,38.269,138.771,38.269,159.279z M387.349,349.415c0,7.275-5.92,13.193-13.195,13.193H75.464
+			c-7.275,0-13.195-5.919-13.195-13.193v-46.165c0-0.018,0-0.036,0-0.054v-36.85h325.08V349.415z"/>
+	</g>
+</g>
+</svg>
+        <h2 >Payment Info</h2>
+        <form id="card_payment_form" method="post">
+            {% csrf_token %}
+            <label>Full Name</label>
+            <input type="text" name="first_name" id="full_name" value="{{ user.first_name }} {{ user.last_name }}">
+            <label>Card Number</label>
+            <input type="number" id="card_number" name="credit_card_number" placeholder="1234 3213 4211 3213" value="{{creditcard.credit_card_number }}" >
+            <p id="card_error">Invalid type of Card Number please check again</p>
+            <label>Expiration Date</label>
+            <input id="exp_date" type="text" name="expiration_date" placeholder="MM/YY" value="{{ creditcard.expiration_date }}">
+            <p id="card_exp">You must provide exp date</p>
+            <label>Cvv_code</label>
+            <input id="cvv_code" type="number" name="cvv_code" placeholder="..." value="{{ creditcard.cvv_code }}">
+            <p id="cvv_error">Cvv must be 3 digits only</p>
+             <label>Product Price</label>
+            <input  id="bilance" type="number" name="bilance" placeholder="$" value="{{ product.price }}">
+            <button type="button" class="buy" onclick="buy({{ product.id }})">Confirm Payment</button>
+                <p id="verify">You verify that this info is correct</p>
+        </form>
+    </div>
+{% endblock %}
+
+{% block custom_scripts %}
+
+    <script>
+
+        function buy(product){
+            let url = '{% url "buy_product" %}'
+
+            $.ajax({
+                type: "POST",
+                url: url,
+                data:{
+                    "product": product,
+                },
+                success:function (response_data){
+                    if (response_data.message === "success"){
+                        window.location.href = '{% url "products" %}'
+                    }
+                }
+            })
+        }
+    </script>
+{% endblock %}

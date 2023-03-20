@@ -100,7 +100,7 @@
                     <td>{{ item.product.description }}</td>
                     <td>
                         <div class="button_container row">
-                            <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" item.product.pk %}')">Delete</button>
+                            <button type="button" class="delete" onclick="deleteProduct('{% url "delete_product" %}')">Delete</button>
                             <button type="button" class="view" onclick="viewProduct('{% url "single_product" item.product.pk %}')">View</button> <br>
                         </div>
                     </td>

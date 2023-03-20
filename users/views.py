@@ -172,5 +172,19 @@ def register_card(request, template_name="templates/register_card.html"):
         return JsonResponse({"message": "success"}, status=200)
 
 
+def confirm_payment(request, pk, template_name="confirm_payment.html"):
+    data = {}
+    if request.method == "GET":
+        user = request.user
+        creditcard = CreditCard.objects.filter(card_holder=user).get()
+        product = Product.objects.get(id=pk)
+        # product = Product.objects.get(id=request.POST.get('product'))
+        data["creditcard"] = creditcard
+        data["product"] = product
+
+        return render(request, template_name, data)
+
+
+
 
 
