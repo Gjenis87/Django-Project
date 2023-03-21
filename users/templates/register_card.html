@@ -15,7 +15,7 @@
     }
     .wrapper{
         width: 390px;
-        height: 750px;
+        height: 770px;
         background: #FFFFFF;
         box-shadow:  0px 4px 20px rgba(77, 166, 186, 0.38);
         border-radius: 20px;
@@ -123,12 +123,15 @@
     }
     #card_error{
         display: none;
+        color: red;
     }
     #card_exp{
         display: none;
+        color: red;
     }
     #cvv_error{
         display: none;
+        color: red;
     }
     #Capa_1{
         width: 104px;
@@ -188,7 +191,7 @@
             <label>Bilance</label>
             <input  id="bilance" type="number" name="bilance" placeholder="$">
             <p id="balance_error">Balance cannot be empty</p>
-            <input type="submit" id="submit" value="Confirm Register" >
+            <input type="submit" id="submit" value="Confirm Register" disabled>
                 <p id="verify">You verify that this info is correct</p>
         </form>
     </div>
@@ -197,9 +200,10 @@
 {% block custom_scripts %}
 
     <script>
-
-        const amountInput = document.getElementById('credit_limit');
-        amountInput.value = '$';
+        const expDateInput = document.getElementById('exp_date');
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString('en-US', {month: '2-digit', year: '2-digit'}).replace('/', '\\');
+        expDateInput.value  = formattedDate;
 
         function handleCardNumber(){
             let cardNum = $('#card_number').val()
@@ -232,10 +236,12 @@
 
         function handleCvv() {
             let cvv = $("#cvv_code").val()
-            if(isNaN(cvv) && cvv.length>3){
+            if(cvv.length>3){
                 $("#cvv_error").show()
+                $('#submit').prop("disabled", true)
             }else {
                 $("#cvv_error").hide()
+                $('#submit').prop("disabled", false)
             }
         }
         $("#cvv_code").on("input", function () {
@@ -243,10 +249,12 @@
         })
         function handleBalance() {
             let bal = $("#bilance").val()
-            if (bal === 0 || isNaN(bal)){
+            if (bal === "0" || isNaN(bal)){
                 $("#balance_error").show()
-            }else {
+                $('#submit').prop("disabled", true)
+            } else {
                 $("#balance_error").hide()
+                $('#submit').prop("disabled", false)
             }
         }
         $("#bilance").on("input", function () {
